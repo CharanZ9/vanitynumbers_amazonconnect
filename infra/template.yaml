@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM Template for Vanity Number Service
+Resources:
+  #########              #########
+  ######### API GATEWAY  #########
+  #########              #########
+  VanityNumberApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: vanity-number-api
+      StageName: prod
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: s3://project-vanity-numbers/api_spec/api_spec.yaml
+      EndpointConfiguration: REGIONAL
+      Auth:
+        DefaultAuthorizer: NONE
+
+  #########              #########
+  ######### Integration  #########
+  #########     Lambda   #########
+  VanityNumberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: vanity-number-lambda-function
+      CodeUri: s3://project-vanity-numbers/zip_package/my-deployment-package.zip
+      Handler: vanitynumber.lambda_function.lambda_handler
+      Role: arn:aws:iam::933555131565:role/lambda-role
+      Runtime: python3.8
+      MemorySize: 512
+      Timeout: 60
+      PackageType: Zip
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref VanityNumberApiGateway
+            Path: /vanitynumbers
+            Method: Post
+
+  ConfigLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+    - VanityNumberFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref VanityNumberFunction
+      Principal: apigateway.amazonaws.com
+
+  ConfigConnectLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    DependsOn:
+    - VanityNumberFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref VanityNumberFunction
+      Principal: connect.amazonaws.com
+      
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: phoneNumber
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: phoneNumber
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: vanitynumbertable       
+
+Outputs:
+  ApiURL:
+    Description: "API URL"
+    Value: !Sub 'https://${VanityNumberApiGateway}.execute-api.${AWS::Region}.amazonaws.com/prod/'

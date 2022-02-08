@@ -1,0 +1,79 @@
+---
+openapi: 3.0.1
+info:
+  description: Vanity Number Service API - Prod env specification
+  title: vanitynumber-service-api
+  version: 1.0.0
+paths:
+  vanitynumbers/ :
+    get:
+      summary: Get vanity numbers for a given phone number.
+      description: >
+        Get vanity numbers for a given phone number.
+      parameters:
+        - name: phonenumber
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Valid Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VanityNumbers"
+              example:
+                message: " output"
+        501:
+          description: Error in getting vanity numbers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseBody"
+              example:
+                message: "ERROR in getting vanity numbers for given phone number"
+        500:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponseBody"
+              example:
+                message: "ERROR in getting vanity numbers for given phone number"
+      x-amazon-apigateway-request-validator: Validate query string parameters and headers
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${VanityNumberFunction.Arn}/invocations
+        responses:
+          default:
+            statusCode: 200
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        contentHandling: CONVERT_TO_TEXT
+        type: aws_proxy
+
+x-amazon-apigateway-gateway-responses:
+  BAD_REQUEST_BODY:
+    statusCode: 400
+    responseTemplates:
+      application/json: "{\"message\":\" 400\"}"
+  ACCESS_DENIED:
+    statusCode: 403
+    responseTemplates:
+      application/json: "{\"message\":\" 403\"}"
+
+x-amazon-apigateway-request-validators:
+  Validate body:
+    validateRequestBody: true
+
+components:
+  schemas:
+    VanityNumbersResponse:
+      properties:
+        message:
+          type: string
+    ErrorResponseBody:
+      properties:
+        message:
+          type: string
