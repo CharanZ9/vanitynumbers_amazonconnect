@@ -24,7 +24,15 @@ The main aim of the project is to provide three best possible vanity numbers for
 ## Amazon Connect
 
 * ### Contact Flows
+
   1. Vanity Number Service Inbound Flow
+  
+     ![Vanity Number Service Inbound Flow](https://github.com/CharanZ9/vanitynumbers_amazonconnect/blob/main/documentation/vanity_number_service_inbound_flow.png?raw=true)
+  
+  2. Read Vanity Numbers Flow
+  
+     ![Read Vanity Numbers Flow](https://github.com/CharanZ9/vanitynumbers_amazonconnect/blob/main/documentation/read_vanity_number_service.png?raw=true)
+  
 
 
 
