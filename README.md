@@ -21,5 +21,10 @@ The main aim of the project is to provide three best possible vanity numbers for
       * Sample Request:
         * https://r20gf5xtd8.execute-api.us-east-1.amazonaws.com/prod/vanitynumbers?phonenumber={user_input_phone_number}
 
+## Amazon Connect
+
+* ### Contact Flows
+  1. Vanity Number Service Inbound Flow
+
 
 
