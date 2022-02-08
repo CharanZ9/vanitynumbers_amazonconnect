@@ -32,6 +32,12 @@ The main aim of the project is to provide three best possible vanity numbers for
   2. Read Vanity Numbers Flow
   
      ![Read Vanity Numbers Flow](https://github.com/CharanZ9/vanitynumbers_amazonconnect/blob/main/documentation/read_vanity_number_service.png?raw=true)
+     
+## Lambda Functions
+
+- vanity-number-lambda-function
+   - Description: This function accepts the phone number as input and uses it to fetch the vanity numbers fom dynamodb.
+                  If it isn't present in the db, then it creates best five vanity numbers, save those in db and return the top three from them.
   
 
 
