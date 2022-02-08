@@ -4,3 +4,5 @@ The main aim of the project is to provide three best possible vanity numbers for
 
 ## Architecture Diagram
 
+![Architecture Diagram] (./documentation/architecture_diagram.png)
+
