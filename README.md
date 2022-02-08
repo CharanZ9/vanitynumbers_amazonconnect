@@ -4,7 +4,7 @@ The main aim of the project is to provide three best possible vanity numbers for
 
 ## Architecture Diagram
 
-![Architecture Diagram] (https://github.com/CharanZ9/vanitynumbers_amazonconnect/blob/main/documentation/architecture_diagram.png)
+![Architecture Diagram](https://github.com/CharanZ9/vanitynumbers_amazonconnect/blob/main/documentation/architecture_diagram.png?raw=true)
 
 
 
