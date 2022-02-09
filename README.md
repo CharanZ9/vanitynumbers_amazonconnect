@@ -51,7 +51,7 @@ The main aim of the project is to provide three best possible vanity numbers for
  ## AWS SAM DEPLOYMENT
   
  - I have used the following steps to deploy the application using AWS SAM.
- - The infrastructure related template and the apispec files are located at [infra]()
+ - The infrastructure related template and the apispec files are located at [infra](https://github.com/CharanZ9/vanitynumbers_amazonconnect/tree/main/infra)
 
 
 
