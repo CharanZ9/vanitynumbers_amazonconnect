@@ -50,8 +50,28 @@ The main aim of the project is to provide three best possible vanity numbers for
   
  ## AWS SAM DEPLOYMENT
   
- - I have used the following steps to deploy the application using AWS SAM.
  - The infrastructure related template and the apispec files are located at [infra](https://github.com/CharanZ9/vanitynumbers_amazonconnect/tree/main/infra)
+ - I have used the following steps to deploy the application using AWS SAM.
+   ```
+     pip install --target ./package -r requirements.txt
+   
+     cd package
+     zip -r ../my-deployment-package.zip .
+
+     cd ..
+     zip -g my-deployment-package.zip vanitynumber/lambda_function.py
+     zip -g my-deployment-package.zip vanitynumber/__init__.py
+     zip -g -r my-deployment-package.zip vanitynumber/library/
+
+     aws s3 cp my-deployment-package.zip s3://project-vanity-numbers/zip_package/
+     cd infra
+     aws s3 cp api_spec.yaml s3://project-vanity-numbers/api_spec/
+
+     sam package --template-file template.yaml --output-template-file output.yaml --s3-bucket project-vanity-numbers
+     sam deploy --guided --template-file output.yaml --stack-name VanityNumbers --capabilities CAPABILITY_IAM 
+   ```
+ - The above steps uses the S3 bucket `project-vanity-numbers` and the stack name as `VanityNumbers`. The users has to provide their own S3 bucket and the stack name of thier choice.
+ 
 
 
 
