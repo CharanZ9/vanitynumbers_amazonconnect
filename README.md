@@ -38,7 +38,20 @@ The main aim of the project is to provide three best possible vanity numbers for
 - vanity-number-lambda-function
    - Description: This function accepts the phone number as input and uses it to fetch the vanity numbers fom dynamodb.
                   If it isn't present in the db, then it creates best five vanity numbers, save those in db and return the top three from them.
+                  
+## DynamoDB
+
+* ### Tables
+
+  - vanitynumbertable
+     - Stores the phone number and the corresponding vanity numbers mapping.
+     - Phone number is the partition key using which items can be queried or inserted in the table
+     - phoneNumber is the attribute which stores the list of five vanity numbers associated with the phone number
   
+ ## AWS SAM DEPLOYMENT
+  
+ - I have used the following steps to deploy the application using AWS SAM.
+ - The infrastructure related template and the apispec files are located at [infra]()
 
 
 
